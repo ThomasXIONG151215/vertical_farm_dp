@@ -79,6 +79,7 @@ def enviro_module():
             label="🔋 能效 (kWh/kg)",
             value=8.4,
             delta=-2)
+#PROGRESS BAR WITH STREAMLIT
 
     C2.info('目前进展至第三轮，要注意平稳维持室内温湿度',icon="📝")
     C2.success('今天植物表型增长率很不错，或许近期的营养配方很适合这轮生菜', icon="🌈")
