@@ -27,7 +27,7 @@ sample_ims = {
 
 import os 
 
-csv_path = "vertical_farm_dp/arranged_data4"
+csv_path = "./arranged_data4"
 files = os.listdir(csv_path)
 num_files = len(files)
 dataframes4 = {}
