@@ -32,7 +32,7 @@ files = os.listdir(csv_path)
 num_files = len(files)
 dataframes4 = {}
 
-for i in range(11,num_files): #有效数据
+for i in range(10,num_files): #有效数据
     dataframes4['df'+str(i)] = pd.read_csv('arranged_data4/sub_df'+str(i)+'.csv')
 
 hetero_collection = []
@@ -48,7 +48,7 @@ dark_co2_consum = []
 
 combine_df = dataframes4['df10']
 
-for i in range(11,num_files):
+for i in range(10,num_files):
     combine_df=pd.concat((combine_df,dataframes4['df'+str(i)]))
 combine_df['time'] = pd.to_datetime(combine_df['time'])
 combine_df = combine_df.set_index('time')
