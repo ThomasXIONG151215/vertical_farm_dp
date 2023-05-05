@@ -32,7 +32,7 @@ files = os.listdir(csv_path)
 num_files = len(files)
 dataframes4 = {}
 
-for i in range(20,len(num_files)): #有效数据
+for i in range(11,num_files): #有效数据
     dataframes4['df'+str(i)] = pd.read_csv('arranged_data4/sub_df'+str(i)+'.csv')
 
 hetero_collection = []
