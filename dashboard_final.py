@@ -44,7 +44,7 @@ dark_co2_consum = []
 combine_df = dataframes4['df10']
 
 for i in range(11,33):
-    combine_df=pd.concat(combine_df,dataframes4['df'+str(i)])
+    combine_df=pd.concat((combine_df,dataframes4['df'+str(i)]))
 combine_df['time'] = pd.to_datetime(combine_df['time'])
 combine_df = combine_df.set_index('time')
 combine_df['time'] = combine_df.index
