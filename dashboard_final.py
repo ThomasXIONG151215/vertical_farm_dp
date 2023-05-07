@@ -50,6 +50,7 @@ combine_df = dataframes4['df10']
 
 for i in range(10,num_files):
     combine_df=pd.concat((combine_df,dataframes4['df'+str(i)]))
+
 combine_df['time'] = pd.to_datetime(combine_df['time'])
 combine_df = combine_df.set_index('time')
 combine_df['time'] = combine_df.index
@@ -71,7 +72,7 @@ with main_col:
     format="MM/DD")
 def enviro_module():
     st.markdown("## 种植进度")
-
+    '''
     C1,C2 = st.columns((2,2))
     C1.progress(37,text="赛事进度")
     with C1:
@@ -84,11 +85,9 @@ def enviro_module():
             label="🔋 能效 (kWh/kg)",
             value=8.4,
             delta=-2)
-#PROGRESS BAR WITH STREAMLIT
-
     C2.info('目前进展至第三轮，要注意平稳维持室内温湿度',icon="📝")
     C2.success('今天植物表型增长率很不错，或许近期的营养配方很适合这轮生菜', icon="🌈")
-
+    '''
     st.markdown("## 环境控制")
     start_date = values[0]
     end_date = values[1]
@@ -99,8 +98,7 @@ def enviro_module():
     end_time_diff = combine_df['time'] - pd.to_datetime(end_date)
     end_datetime = end_time_diff.abs().idxmin()
 
-    #st.write(start_datetime)
-    combine_df_s = combine_df[start_datetime:end_datetime]
+    combine_df_s = combine_df.iloc[start_datetime:end_datetime]
 
     f1,f2,f3= st.columns((2,2,2),gap="medium")
     with f1:
@@ -133,9 +131,16 @@ def enviro_module():
         f21.metric(label="🌡今日气温",
                    value="28 C", 
                    delta="1.2 C")
+        f21.metric(label = "当前室温",
+                   value = str(combine_df['平均温度'][-1]),
+                   delta=str(round(combine_df['平均温度'][-1]-combine_df['平均温度'][-2],2)))
+
         f22.metric(label="💧室外湿度",
                    value="76 %", 
                    delta="-8.2 %")
+        f21.metric(label = "相对湿度(%)",
+                   value = str(combine_df['平均湿度'][-1]),
+                   delta = str(round(combine_df['平均湿度'][-1]-combine_df['平均湿度'][-2],2)))
         sample_im_selection = st.selectbox('植物生长',options=['im1','im2','im3'])
         st.image(sample_ims[sample_im_selection],caption=sample_im_selection,use_column_width=True)
     
