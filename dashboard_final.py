@@ -90,8 +90,8 @@ def enviro_module():
     f22.metric(label = "相对湿度(%)",
                 value = str(round(combine_df['平均湿度'][-1],2)),
                 delta = str(round(combine_df['平均湿度'][-1]-combine_df['平均湿度'][-2],2)))
-    sample_im_selection = st.selectbox('植物生长',options=['im1','im2','im3'])
-    st.image(sample_ims[sample_im_selection],caption=sample_im_selection,use_column_width=True)
+    #sample_im_selection = st.selectbox('植物生长',options=['im1','im2','im3'])
+    #st.image(sample_ims[sample_im_selection],caption=sample_im_selection,use_column_width=True)
 
     st.markdown("## 环境控制")
     start_date = values[0]
@@ -354,7 +354,7 @@ def select_and_show_hetero_data():
         daily_df = pd.read_csv('./hetero_data/daily_hetero_'+str(i)+'.csv')
         three_h_df = pd.read_csv('./hetero_data/3H_hetero_'+str(i)+'.csv')
         thirty_min_df = pd.read_csv('./hetero_data/30min_hetero_'+str(i)+'.csv')
-        parameters = ['plant ' + str(i),'plant ' + str(i) + ' diff','平均温度','平均湿度',
+        parameters = ['time','plant ' + str(i),'plant ' + str(i) + ' diff','平均温度','平均湿度',
                       '1号室内CO2浓度','2号室内CO2浓度','营养液EC','营养液PH','营养液液温',
                       '1号蓝比','1号红比','1号绿比','1号PPFD','1号PAR','2号蓝比','2号红比',
                       '2号绿比','2号PPFD','2号PAR','3号蓝比','3号红比','3号绿比','3号PPFD','3号PAR','1号色温','2号色温','3号色温']
@@ -366,20 +366,20 @@ def select_and_show_hetero_data():
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
     
     combine_1d = heteros_daily[selection-1]
-    combine_1d['time'] = combine_1d.index
+    #combine_1d['time'] = combine_1d.index
     one_d = st.expander("1天平均值",expanded=True)
     with one_d:
         st.table(combine_1d)
         show_everything(combine_1d,selection)
     combine_3h = heteros_3H[selection-1]
-    combine_3h['time'] = combine_3h.index
+    #combine_3h['time'] = combine_3h.index
     three_h = st.expander("3小时平均值",expanded=True)
     with three_h:
         st.table(combine_3h)
         show_everything(combine_3h,selection)
 
     combine_30m = heteros_3H[selection-1]
-    combine_30m['time'] = combine_30m.index
+    #combine_30m['time'] = combine_30m.index
     three_h = st.expander("30分钟平均值",expanded=True)
     with three_h:
         st.table(combine_30m)
