@@ -52,9 +52,9 @@ for i in range(10,num_files):
     combine_df=pd.concat((combine_df,dataframes4['df'+str(i)]))
 
 combine_df['time'] = pd.to_datetime(combine_df['time'])
-#combine_df = combine_df.set_index('time')
-#combine_df['time'] = combine_df.index
-#combine_df['顺序'] = [i for i in range(1,len(combine_df)+1)]
+combine_df = combine_df.set_index('time')
+combine_df['time'] = combine_df.index
+combine_df['顺序'] = [i for i in range(1,len(combine_df)+1)]
 
 from datetime import datetime,time
 
@@ -65,7 +65,7 @@ with main_col:
     values = st.slider(
 '选择时间段',
     min_value=datetime(times[0].year,times[0].month,times[0].day), 
-    max_value=datetime(times[0].year,times[-1].month,times[-1].day), 
+    max_value=datetime(times[-1].year,times[-1].month,times[-1].day), 
     value=(datetime(times[30].year,times[30].month,times[30].day), 
             datetime(times[200].year,times[100].month,times[100].day))
     ,#step=datetime(year=2023,month=1,day=1,hour=1,minute=1),
@@ -101,7 +101,7 @@ def enviro_module():
     end_datetime = end_time_diff.abs().idxmin()
     end_index = combine_df.index.get_loc(end_datetime)
 
-    combine_df_s = combine_df.iloc[start_index:end_index+1,:]
+    combine_df_s = combine_df[(combine_df.index >= start_datetime) & (combine_df.index <= end_datetime)]
 
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
