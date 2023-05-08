@@ -354,6 +354,7 @@ def select_and_show_hetero_data():
     #可以考虑表格展示每个dataframe在2号PAR这一列数值为零时的各参数的平均值
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
+    heteros[selection].time = pd.to_datetime(heteros[selection].time)
     combine_3h = heteros[selection].resample('3H', on='time').mean()
     three_h = st.expander("3小时平均值",expanded=True).table(combine_3h)
     with three_h:
