@@ -346,31 +346,41 @@ def show_everything(combine_df_s, mod_numero):
 #below i want a function that extract data starting from hetero, 
 # using st.select to enable selecting the dataframe to see and show chart
 def select_and_show_hetero_data():
-    heteros = []
+    heteros_daily = []
+    heteros_3H = []
+    heteros_30min = []
     #heteros_dark = [] #暗期时
     #heteros_light = [] #光期时
     for i in range(1,10):
-        df = pd.read_csv('./hetero_data/hetero_'+str(i)+'.csv')
+        daily_df = pd.read_csv('./hetero_data/daily_hetero_'+str(i)+'.csv')
+        three_h_df = pd.read_csv('./hetero_data/3H_hetero_'+str(i)+'.csv')
+        thirty_min_df = pd.read_csv('./hetero_data/30min_hetero_'+str(i)+'.csv')
         parameters = ['plant ' + str(i),'plant ' + str(i) + ' diff','平均温度','平均湿度','1号室内CO2浓度','2号室内CO2浓度','营养液EC','营养液PH','营养液液温','1号蓝比','1号红比','1号绿比','1号PPFD','1号PAR','2号蓝比','2号红比','2号绿比','2号PPFD','2号PAR','3号蓝比','3号红比','3号绿比','3号PPFD','3号PAR']
-        heteros.append(df[parameters])
+        heteros_daily.append(daily_df[parameters])
+        heteros_3H.append(three_h_df[parameters])
+        heteros_30min.append(thirty_min_df[parameters])
     #可以考虑表格展示每个dataframe在2号PAR这一列数值为零时的各参数的平均值
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
-    selected_df = heteros[selection]
-    selected_df.index = pd.to_datetime(selected_df.index)
-    #selected_df['time'] = heteros[selection].index
-    #selected_df['time'] = pd.to_datetime(selected_df['time'])
-    #st.write(heteros[selection].keys())
-    combine_3h = selected_df.resample('3H').mean()
-    three_h = st.expander("3小时平均值",expanded=True)
-    with three_h:
-        st.table(combine_3h)
-    combine_1d = selected_df.resample('1D').mean()
+    
+    combine_1d = heteros_daily[selection-1]
     one_d = st.expander("1天平均值",expanded=True)
     with one_d:
         st.table(combine_1d)
+        show_everything(combine_1d,selection)
+    combine_3h = heteros_3H[selection-1]
+    three_h = st.expander("3小时平均值",expanded=True)
+    with three_h:
+        st.table(combine_3h)
+        show_everything(combine_3h,selection)
+
+    combine_30m = heteros_3H[selection-1]
+    three_h = st.expander("30分钟平均值",expanded=True)
+    with three_h:
+        st.table(combine_30m)
+        show_everything(combine_30m,selection)
     
-    show_everything(heteros[selection],selection)
+        
 
 def emist_ai():
     from sko.GA import GA

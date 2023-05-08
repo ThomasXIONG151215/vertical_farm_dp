@@ -114,12 +114,18 @@ if __name__ == "__main__":
             df_collection[i]['time'] = pd.to_datetime(df_collection[i]['time'])
             merged_df = pd.merge_asof(merged_df,df_collection[i],on='time',direction='nearest')
         merged_df = merged_df.set_index('time')
-        daily_df = merged_df.resample('1800s').mean()#半小时数据
+        daily_df = merged_df.resample('1D').mean()#1天数据
+        three_hour_df = merged_df.resample('3H').mean()#3小时数据
+        half_hour_df = merged_df.resample('30min').mean()#半小时数据
 
         hetero_collection = []
         #每一排都弄一波数据
         for i in range(1,10):
-            condition = (daily_df['plant ' + str(i) + ' diff']>0)
-            daily_df[condition].to_csv('vertical_farm_dp/hetero_data/hetero_'+str(i)+'.csv')
+            daily_condition = (daily_df['plant ' + str(i) + ' diff']>0)
+            three_hour_condition = (three_hour_df['plant ' + str(i) + ' diff']>0)
+            half_hour_condition = (half_hour_df['plant ' + str(i) + ' diff']>0)
+            daily_df[daily_condition].to_csv('vertical_farm_dp/hetero_data/daily_hetero_'+str(i)+'.csv')
+            three_hour_df[three_hour_condition].to_csv('vertical_farm_dp/hetero_data/3H_hetero_'+str(i)+'.csv')
+            half_hour_df[half_hour_condition].to_csv('vertical_farm_dp/hetero_data/30min_hetero_'+str(i)+'.csv')
 
         time.sleep(30*60)
