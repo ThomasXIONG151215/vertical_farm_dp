@@ -88,9 +88,7 @@ if __name__ == "__main__":
             new_df['plant '+str(i)+' diff'] = new_df['plant '+str(i)].diff(1)
             new_df['time'] = times 
             new_df['time'] = pd.to_datetime(new_df['time'])
-            #new_df = new_df.set_index('time')
-            #new_df.index = pd.to_datetime(new_df.index)
-            #ew_df = new_df.resample('30m').mean()
+
             try:
                 #new_df.resample('1H').mean()
                 df_collection.append(new_df)
@@ -103,13 +101,11 @@ if __name__ == "__main__":
         csv_path = "vertical_farm_dp/arranged_data4"
         files = os.listdir(csv_path)
         num_files = len(files)
-
+        print(num_files)
         for i in range(num_files):
             dataframes4['df'+str(i)] = pd.read_csv("vertical_farm_dp/arranged_data4/sub_df"+str(i)+".csv")
 
         combine_df = pd.concat([dataframes4[key] for key in dataframes4.keys()],ignore_index=True)
-        #for i in range(11,33):
-        #    combine_df=pd.concat([combine_df,dataframes4['df'+str(i)]],axis=1)
 
         merged_df = combine_df
         merged_df['time'] = pd.to_datetime(merged_df['time'])

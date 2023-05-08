@@ -103,7 +103,7 @@ def enviro_module():
 
     combine_df_s = combine_df.iloc[start_index:end_index]
 
-    f1,f2,f3= st.columns((2,2,2),gap="medium")
+    f1,f2= st.columns((2,2),gap="medium")
     with f1:
         
         fig = px.line(combine_df_s,x='顺序',y=['平均温度','1号室内温度','2号室内温度','户外温度'],height=300,template='plotly_dark')
@@ -128,10 +128,6 @@ def enviro_module():
         st.plotly_chart(fig,use_container_width=True)
         #st.area_chart(combine_df,x='顺序',y=['营养液EC'],height=300,use_container_width=True)
     with f2:
-        md = "  "
-        st.markdown(md)
-            
-    with f3:
         fig = px.line(combine_df_s,x='顺序',y=['平均湿度','1号室内湿度','2号室内湿度'],height=300,template='plotly_dark')
         fig.update_layout(title="湿度",
                           legend_title_text=None,
