@@ -72,23 +72,22 @@ with main_col:
     format="MM/DD")
 def enviro_module():
     st.markdown("## 种植进度")
-    f21, f22 = st.columns(2)
-    f21.metric(label="🌡今日气温",
-                value="28 C", 
-                delta="1.2 C")
-    f21.metric(label = "当前室温",
-                value = str(round(combine_df['平均温度'][-1],2)),
-                delta=str(round(combine_df['平均温度'][-1]-combine_df['平均温度'][-2],2)))
-
-    f22.metric(label="💧室外湿度",
-                value="76 %", 
-                delta="-8.2 %")
-    f22.metric(label = "相对湿度(%)",
-                value = str(round(combine_df['平均湿度'][-1],2)),
-                delta = str(round(combine_df['平均湿度'][-1]-combine_df['平均湿度'][-2],2)))
-    sample_im_selection = st.selectbox('植物生长',options=['im1','im2','im3'])
-    st.image(sample_ims[sample_im_selection],caption=sample_im_selection,use_column_width=True)
-
+    caogao = '''
+    C1,C2 = st.columns((2,2))
+    C1.progress(37,text="赛事进度")
+    with C1:
+        C11, C12 = st.columns((1,1))
+        C11.metric(
+            label="🥬 产量 (t)",
+            value=237,
+            delta=30)
+        C12.metric(
+            label="🔋 能效 (kWh/kg)",
+            value=8.4,
+            delta=-2)
+    C2.info('目前进展至第三轮，要注意平稳维持室内温湿度',icon="📝")
+    C2.success('今天植物表型增长率很不错，或许近期的营养配方很适合这轮生菜', icon="🌈")
+    '''
     st.markdown("## 环境控制")
     start_date = values[0]
     end_date = values[1]
@@ -130,7 +129,23 @@ def enviro_module():
     with f2:
         md = "  "
         st.markdown(md)
-            
+        f21, f22 = st.columns(2)
+        f21.metric(label="🌡今日气温",
+                   value="28 C", 
+                   delta="1.2 C")
+        f21.metric(label = "当前室温",
+                   value = str(combine_df['平均温度'][-1]),
+                   delta=str(round(combine_df['平均温度'][-1]-combine_df['平均温度'][-2],2)))
+
+        f22.metric(label="💧室外湿度",
+                   value="76 %", 
+                   delta="-8.2 %")
+        f21.metric(label = "相对湿度(%)",
+                   value = str(combine_df['平均湿度'][-1]),
+                   delta = str(round(combine_df['平均湿度'][-1]-combine_df['平均湿度'][-2],2)))
+        sample_im_selection = st.selectbox('植物生长',options=['im1','im2','im3'])
+        st.image(sample_ims[sample_im_selection],caption=sample_im_selection,use_column_width=True)
+    
     with f3:
         fig = px.line(combine_df_s,x='顺序',y=['平均湿度','1号室内湿度','2号室内湿度'],height=300,template='plotly_dark')
         fig.update_layout(title="湿度",
