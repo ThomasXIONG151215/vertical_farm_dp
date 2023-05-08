@@ -98,11 +98,9 @@ def enviro_module():
 
     start_time_diff = combine_df['time'] - pd.to_datetime(start_date)
     start_datetime = start_time_diff.abs().idxmin()
-    start_index = combine_df.index.get_loc(start_datetime) 
 
     end_time_diff = combine_df['time'] - pd.to_datetime(end_date)
     end_datetime = end_time_diff.abs().idxmin()
-    end_index = combine_df.index.get_loc(end_datetime)
 
     combine_df_s = combine_df[(combine_df.index >= start_datetime) & (combine_df.index <= end_datetime)]
 
@@ -129,6 +127,24 @@ def enviro_module():
             family="Serif",size=15
                           ))
         st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号蓝比','2号蓝比','3号蓝比','1号绿比','2号绿比','3号绿比','1号红比','2号红比','3号红比'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="光谱",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号色温','2号色温','3号色温'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="色温",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15))
+        st.plotly_chart(fig,use_container_width=True)
         #st.area_chart(combine_df,x='顺序',y=['营养液EC'],height=300,use_container_width=True)
     with f2:
         fig = px.line(combine_df_s,x='time',y=['平均湿度','1号室内湿度','2号室内湿度'],height=300,template='plotly_dark')
@@ -149,6 +165,24 @@ def enviro_module():
                           font=dict(
             family="Serif",size=15
                           ))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号PPFD','2号PPFD','3号PPFD'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="PPFD",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号PAR','2号PAR','3号PAR'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="PAR",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15))
         st.plotly_chart(fig,use_container_width=True)
 
     
