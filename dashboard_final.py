@@ -223,7 +223,6 @@ def show_everything(combine_df_s, mod_numero):
         del combine_df_s['Unnamed: 0.1']
     except:
         pass
-    st.table(combine_df_s)
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
         fig = px.line(combine_df_s,x='time',y=['plant ' + str(mod_numero)],height=300,template='plotly_dark')
@@ -355,6 +354,15 @@ def select_and_show_hetero_data():
     #可以考虑表格展示每个dataframe在2号PAR这一列数值为零时的各参数的平均值
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
+    combine_3h = heteros[selection].resample('3H', on='time').mean()
+    three_h = st.expander("3小时平均值",expanded=True).table(combine_3h)
+    with three_h:
+        st.table(three_h)
+    combine_1d = heteros[selection].resample('1D', on='time').mean()
+    one_d = st.expander("1天平均值",expanded=True)
+    with one_d:
+        st.table(combine_1d)
+    
     show_everything(heteros[selection],selection)
 
 def emist_ai():
