@@ -369,12 +369,14 @@ def select_and_show_hetero_data():
     #    st.table(combine_1d)
     #    show_everything(combine_1d,selection)
     combine_3h = heteros_3H[selection-1]
+    combine_3h['time'] = combine_3h.index
     three_h = st.expander("3小时平均值",expanded=True)
     with three_h:
         st.table(combine_3h)
         show_everything(combine_3h,selection)
 
     combine_30m = heteros_3H[selection-1]
+    combine_30m['time'] = combine_30m.index
     three_h = st.expander("30分钟平均值",expanded=True)
     with three_h:
         st.table(combine_30m)
