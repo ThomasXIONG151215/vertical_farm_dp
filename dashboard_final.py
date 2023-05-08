@@ -108,7 +108,7 @@ def enviro_module():
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
         
-        fig = px.line(combine_df_s,x='time',y=['平均温度','1号室内温度','2号室内温度','户外温度'],height=300,template='plotly_dark')
+        fig = px.line(combine_df_s,x='time',y=['平均温度','1号室内温度','2号室内温度'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="温度",
@@ -362,12 +362,12 @@ def select_and_show_hetero_data():
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
     
-    #combine_1d = heteros_daily[selection-1]
-    #combine_1d['time'] = combine_1d.index
-    #one_d = st.expander("1天平均值",expanded=True)
-    #with one_d:
-    #    st.table(combine_1d)
-    #    show_everything(combine_1d,selection)
+    combine_1d = heteros_daily[selection-1]
+    combine_1d['time'] = combine_1d.index
+    one_d = st.expander("1天平均值",expanded=True)
+    with one_d:
+        st.table(combine_1d)
+        show_everything(combine_1d,selection)
     combine_3h = heteros_3H[selection-1]
     combine_3h['time'] = combine_3h.index
     three_h = st.expander("3小时平均值",expanded=True)
