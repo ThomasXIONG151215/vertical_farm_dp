@@ -37,7 +37,7 @@ for i in range(10,num_files): #有效数据
 
 hetero_collection = []
 for i in range(1,10):
-    hetero_collection.append(pd.read_csv('vertical_farm_dp\hetero_data\hetero_'+str(i)+'.csv'))
+    hetero_collection.append(pd.read_csv('./hetero_data/hetero_'+str(i)+'.csv'))
 
 df_dict = {}
 light_period = [16,17,18,19,20,21,22,23,0,1,2,3,4,5,6,7,8]
@@ -351,7 +351,7 @@ def select_and_show_hetero_data():
     #heteros_dark = [] #暗期时
     #heteros_light = [] #光期时
     for i in range(1,10):
-        heteros.append(pd.read_csv('vertical_farm_dp\hetero_data\hetero_'+str(i)+'.csv'))
+        heteros.append(pd.read_csv('./hetero_data/hetero_'+str(i)+'.csv'))
     #可以考虑表格展示每个dataframe在2号PAR这一列数值为零时的各参数的平均值
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
