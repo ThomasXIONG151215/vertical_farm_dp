@@ -349,8 +349,7 @@ def select_and_show_hetero_data():
     heteros_daily = []
     heteros_3H = []
     heteros_30min = []
-    #heteros_dark = [] #暗期时
-    #heteros_light = [] #光期时
+
     for i in range(1,10):
         daily_df = pd.read_csv('./hetero_data/daily_hetero_'+str(i)+'.csv')
         three_h_df = pd.read_csv('./hetero_data/3H_hetero_'+str(i)+'.csv')
@@ -364,6 +363,7 @@ def select_and_show_hetero_data():
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
     
     combine_1d = heteros_daily[selection-1]
+    combine_1d['time'] = combine_1d.index
     one_d = st.expander("1天平均值",expanded=True)
     with one_d:
         st.table(combine_1d)
