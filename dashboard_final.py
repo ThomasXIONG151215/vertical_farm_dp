@@ -108,7 +108,7 @@ def enviro_module():
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
         
-        fig = px.line(combine_df_s,x='time',y=['平均温度','1号室内温度','2号室内温度'],height=300,template='plotly_dark')
+        fig = px.line(combine_df_s,x='time',y=['平均温度','1号室内温度','2号室内温度','户外温度'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="温度",
@@ -235,7 +235,7 @@ def show_everything(combine_df_s, mod_numero):
                             ))
         st.plotly_chart(fig,use_container_width=True)
 
-        fig = px.line(combine_df_s,x='time',y=['平均温度','1号室内温度','2号室内温度','户外温度'],height=300,template='plotly_dark')
+        fig = px.line(combine_df_s,x='time',y=['平均温度'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="温度",
@@ -295,7 +295,7 @@ def show_everything(combine_df_s, mod_numero):
             family="Serif",size=15
                             ))
         st.plotly_chart(fig,use_container_width=True)
-        fig = px.line(combine_df_s,x='time',y=['平均湿度','1号室内湿度','2号室内湿度'],height=300,template='plotly_dark')
+        fig = px.line(combine_df_s,x='time',y=['平均湿度'],height=300,template='plotly_dark')
         fig.update_layout(title="湿度",
                           legend_title_text=None,
                           font=dict(
@@ -354,7 +354,10 @@ def select_and_show_hetero_data():
         daily_df = pd.read_csv('./hetero_data/daily_hetero_'+str(i)+'.csv')
         three_h_df = pd.read_csv('./hetero_data/3H_hetero_'+str(i)+'.csv')
         thirty_min_df = pd.read_csv('./hetero_data/30min_hetero_'+str(i)+'.csv')
-        parameters = ['plant ' + str(i),'plant ' + str(i) + ' diff','平均温度','平均湿度','1号室内CO2浓度','2号室内CO2浓度','营养液EC','营养液PH','营养液液温','1号蓝比','1号红比','1号绿比','1号PPFD','1号PAR','2号蓝比','2号红比','2号绿比','2号PPFD','2号PAR','3号蓝比','3号红比','3号绿比','3号PPFD','3号PAR']
+        parameters = ['plant ' + str(i),'plant ' + str(i) + ' diff','平均温度','平均湿度',
+                      '1号室内CO2浓度','2号室内CO2浓度','营养液EC','营养液PH','营养液液温',
+                      '1号蓝比','1号红比','1号绿比','1号PPFD','1号PAR','2号蓝比','2号红比',
+                      '2号绿比','2号PPFD','2号PAR','3号蓝比','3号红比','3号绿比','3号PPFD','3号PAR','1号色温','2号色温','3号色温']
         heteros_daily.append(daily_df[parameters])
         heteros_3H.append(three_h_df[parameters])
         heteros_30min.append(thirty_min_df[parameters])
