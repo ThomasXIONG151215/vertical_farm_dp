@@ -52,9 +52,9 @@ for i in range(10,num_files):
     combine_df=pd.concat((combine_df,dataframes4['df'+str(i)]))
 
 combine_df['time'] = pd.to_datetime(combine_df['time'])
-combine_df = combine_df.set_index('time')
-combine_df['time'] = combine_df.index
-combine_df['顺序'] = [i for i in range(1,len(combine_df)+1)]
+#combine_df = combine_df.set_index('time')
+#combine_df['time'] = combine_df.index
+#combine_df['顺序'] = [i for i in range(1,len(combine_df)+1)]
 
 from datetime import datetime,time
 
@@ -101,12 +101,12 @@ def enviro_module():
     end_datetime = end_time_diff.abs().idxmin()
     end_index = combine_df.index.get_loc(end_datetime)
 
-    combine_df_s = combine_df.iloc[start_datetime:end_datetime]
+    combine_df_s = combine_df.iloc[start_index:end_index+1,:]
 
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
         
-        fig = px.line(combine_df_s,x='顺序',y=['平均温度','1号室内温度','2号室内温度','户外温度'],height=300,template='plotly_dark')
+        fig = px.line(combine_df_s,x='time',y=['平均温度','1号室内温度','2号室内温度','户外温度'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="温度",
@@ -117,7 +117,7 @@ def enviro_module():
         st.plotly_chart(fig,use_container_width=True)
         #st.line_chart(combine_df,x='顺序',y=['平均温度','1号室内温度','2号室内温度','户外温度'])
         st.markdown("""  ---  """)
-        fig = px.line(combine_df_s,y=['营养液EC'],height=300,template='plotly_dark')
+        fig = px.line(combine_df_s,x='time',y=['营养液EC'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="营养液EC",
@@ -128,7 +128,7 @@ def enviro_module():
         st.plotly_chart(fig,use_container_width=True)
         #st.area_chart(combine_df,x='顺序',y=['营养液EC'],height=300,use_container_width=True)
     with f2:
-        fig = px.line(combine_df_s,x='顺序',y=['平均湿度','1号室内湿度','2号室内湿度'],height=300,template='plotly_dark')
+        fig = px.line(combine_df_s,x='time',y=['平均湿度','1号室内湿度','2号室内湿度'],height=300,template='plotly_dark')
         fig.update_layout(title="湿度",
                           legend_title_text=None,
                           font=dict(
@@ -138,7 +138,7 @@ def enviro_module():
         fig.update_xaxes(title=None)
         st.plotly_chart(fig,use_container_width=True)
         st.markdown("""  ---  """)
-        fig = px.line(combine_df_s,x='顺序',y=['营养液PH'],height=300,template='plotly_dark')
+        fig = px.line(combine_df_s,x='time',y=['营养液PH'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="营养液PH",
