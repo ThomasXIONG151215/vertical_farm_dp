@@ -120,6 +120,6 @@ if __name__ == "__main__":
         #每一排都弄一波数据
         for i in range(1,10):
             condition = (daily_df['plant ' + str(i) + ' diff']>0)
-            daily_df[condition].to_csv('hetero_'+str(i)+'.csv')
+            daily_df[condition].to_csv('vertical_farm_dp/hetero_data/hetero_'+str(i)+'.csv')
 
         time.sleep(30*60)

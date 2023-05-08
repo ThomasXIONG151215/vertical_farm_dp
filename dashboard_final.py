@@ -76,16 +76,17 @@ with main_col:
 def enviro_module():
     st.markdown("## 种植进度")
     f21, f22 = st.columns(2)
-    f21.metric(label="🌡今日气温",
-                value="28 C", 
-                delta="1.2 C")
+    f21.metric(label = "🌡今日气温",
+                value = str(round(combine_df['户外温度'][-1],2)),
+                delta = str(round(combine_df['户外温度'][-1]-combine_df['户外温度'][-2],2)),
+                ) 
     f21.metric(label = "当前室温",
                 value = str(round(combine_df['平均温度'][-1],2)),
-                delta=str(round(combine_df['平均温度'][-1]-combine_df['平均温度'][-2],2)))
+                delta = str(round(combine_df['平均温度'][-1]-combine_df['平均温度'][-2],2)))
 
-    f22.metric(label="💧室外湿度",
-                value="76 %", 
-                delta="-8.2 %")
+    f22.metric(label = "💧室外湿度(%)",
+                value = str(round(combine_df['户外湿度'][-1],2)), 
+                delta = str(round(combine_df['户外湿度'][-1]-combine_df['户外湿度'][-2],2)))
     f22.metric(label = "相对湿度(%)",
                 value = str(round(combine_df['平均湿度'][-1],2)),
                 delta = str(round(combine_df['平均湿度'][-1]-combine_df['平均湿度'][-2],2)))
@@ -216,6 +217,141 @@ def enviro_module():
         pass
     st.dataframe(combine_df)
 
+def show_everything(combine_df_s, mod_numero):
+    st.table(combine_df_s)
+    f1,f2= st.columns((2,2),gap="medium")
+    with f1:
+        fig = px.line(combine_df_s,x='time',y=['plant ' + str(mod_numero)],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="植物表型像素",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15
+                            ))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['平均温度','1号室内温度','2号室内温度','户外温度'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="温度",
+                          legend_title_text=None,
+                          font=dict(
+            family="Serif",size=15
+                          ))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号室内CO2浓度','2号室内CO2浓度'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="CO2浓度",
+                          legend_title_text=None,
+                          font=dict(
+            family="Serif",size=15
+                          ))
+        st.plotly_chart(fig,use_container_width=True)
+
+        #st.line_chart(combine_df,x='顺序',y=['平均温度','1号室内温度','2号室内温度','户外温度'])
+        st.markdown("""  ---  """)
+        fig = px.line(combine_df_s,x='time',y=['营养液EC'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="营养液EC",
+                          legend_title_text=None,
+                          font=dict(
+            family="Serif",size=15
+                          ))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号蓝比','2号蓝比','3号蓝比','1号绿比','2号绿比','3号绿比','1号红比','2号红比','3号红比'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="光谱",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号色温','2号色温','3号色温'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="色温",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15))
+        st.plotly_chart(fig,use_container_width=True)
+        #st.area_chart(combine_df,x='顺序',y=['营养液EC'],height=300,use_container_width=True)
+    with f2:
+        fig = px.line(combine_df_s,x='time',y=['plant ' + str(mod_numero) + " diff"],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="植物表型像素差分",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15
+                            ))
+        st.plotly_chart(fig,use_container_width=True)
+        fig = px.line(combine_df_s,x='time',y=['平均湿度','1号室内湿度','2号室内湿度'],height=300,template='plotly_dark')
+        fig.update_layout(title="湿度",
+                          legend_title_text=None,
+                          font=dict(
+            family="Serif",size=15
+                          ))
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['营养液液温'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="营养液液温",
+                          legend_title_text=None,
+                          font=dict(
+            family="Serif",size=15
+                          ))
+        st.plotly_chart(fig,use_container_width=True)
+
+        st.markdown("""  ---  """)
+        fig = px.line(combine_df_s,x='time',y=['营养液PH'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="营养液PH",
+                          legend_title_text=None,
+                          font=dict(
+            family="Serif",size=15
+                          ))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号PPFD','2号PPFD','3号PPFD'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="PPFD",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15))
+        st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号PAR','2号PAR','3号PAR'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="PAR",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15))
+        st.plotly_chart(fig,use_container_width=True)
+#below i want a function that extract data starting from hetero, 
+# using st.select to enable selecting the dataframe to see and show chart
+def select_and_show_hetero_data():
+    heteros = []
+    #heteros_dark = [] #暗期时
+    #heteros_light = [] #光期时
+    for i in range(1,10):
+        heteros.append(pd.read_csv('hetero_data/hetero'+str(i)+'.csv'))
+    #可以考虑表格展示每个dataframe在2号PAR这一列数值为零时的各参数的平均值
+    #hetero_df = pd.DataFrame()
+    selection = st.selectbox("选择模块", [i for i in range(1,10)])
+    show_everything(heteros[selection],selection)
+
 def emist_ai():
     from sko.GA import GA
     from scipy.optimize import curve_fit
@@ -302,7 +438,7 @@ width=1000,scrolling=True
                 )
 
 with st.sidebar:
-  module = st.radio('工程模块',['生长条件','能源AI','设备全景'])
+  module = st.radio('工程模块',['环境参数','异构数据','能源AI','设备全景'])
   values = st.slider(
 '选择时间段',
     min_value=datetime(times[0].year,times[0].month,times[0].day), 
@@ -312,7 +448,9 @@ with st.sidebar:
     ,#step=datetime(year=2023,month=1,day=1,hour=1,minute=1),
     format="MM/DD")
 if module == '生长条件':
-  enviro_module()
+    enviro_module()
+elif module == '异构数据':
+    select_and_show_hetero_data()
 elif module == '能源AI':
     emist_ai()
   
