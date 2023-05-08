@@ -357,6 +357,7 @@ def select_and_show_hetero_data():
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
     selected_df = heteros[selection]
+    selected_df.index = pd.to_datetime(selected_df.index)
     #selected_df['time'] = heteros[selection].index
     #selected_df['time'] = pd.to_datetime(selected_df['time'])
     #st.write(heteros[selection].keys())
