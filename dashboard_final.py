@@ -101,7 +101,7 @@ def enviro_module():
     end_datetime = end_time_diff.abs().idxmin()
     end_index = combine_df.index.get_loc(end_datetime)
 
-    combine_df_s = combine_df.iloc[start_index:end_index]
+    combine_df_s = combine_df.iloc[start_datetime:end_datetime]
 
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
