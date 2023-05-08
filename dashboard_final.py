@@ -37,7 +37,7 @@ for i in range(10,num_files): #有效数据
 
 hetero_collection = []
 for i in range(1,10):
-    hetero_collection.append(pd.read_csv('hetero_data/hetero_'+str(i)+'.csv'))
+    hetero_collection.append(pd.read_csv('vertical_farm_dp\hetero_data\hetero_'+str(i)+'.csv'))
 
 df_dict = {}
 light_period = [16,17,18,19,20,21,22,23,0,1,2,3,4,5,6,7,8]
@@ -218,6 +218,11 @@ def enviro_module():
     st.dataframe(combine_df)
 
 def show_everything(combine_df_s, mod_numero):
+    try:
+        del combine_df_s['Unnamed: 0']
+        del combine_df_s['Unnamed: 0.1']
+    except:
+        pass
     st.table(combine_df_s)
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
@@ -346,7 +351,7 @@ def select_and_show_hetero_data():
     #heteros_dark = [] #暗期时
     #heteros_light = [] #光期时
     for i in range(1,10):
-        heteros.append(pd.read_csv('hetero_data/hetero'+str(i)+'.csv'))
+        heteros.append(pd.read_csv('vertical_farm_dp\hetero_data\hetero_'+str(i)+'.csv'))
     #可以考虑表格展示每个dataframe在2号PAR这一列数值为零时的各参数的平均值
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
@@ -447,7 +452,7 @@ with st.sidebar:
             datetime(times[200].year,times[100].month,times[100].day))
     ,#step=datetime(year=2023,month=1,day=1,hour=1,minute=1),
     format="MM/DD")
-if module == '生长条件':
+if module == '环境参数':
     enviro_module()
 elif module == '异构数据':
     select_and_show_hetero_data()
