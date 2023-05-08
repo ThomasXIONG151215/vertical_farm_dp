@@ -116,6 +116,17 @@ def enviro_module():
             family="Serif",size=15
                           ))
         st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['1号室内CO2浓度','2号室内CO2浓度'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="CO2浓度",
+                          legend_title_text=None,
+                          font=dict(
+            family="Serif",size=15
+                          ))
+        st.plotly_chart(fig,use_container_width=True)
+
         #st.line_chart(combine_df,x='顺序',y=['平均温度','1号室内温度','2号室内温度','户外温度'])
         st.markdown("""  ---  """)
         fig = px.line(combine_df_s,x='time',y=['营养液EC'],height=300,template='plotly_dark')
@@ -156,6 +167,17 @@ def enviro_module():
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         st.plotly_chart(fig,use_container_width=True)
+
+        fig = px.line(combine_df_s,x='time',y=['营养液液温'],height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="营养液液温",
+                          legend_title_text=None,
+                          font=dict(
+            family="Serif",size=15
+                          ))
+        st.plotly_chart(fig,use_container_width=True)
+
         st.markdown("""  ---  """)
         fig = px.line(combine_df_s,x='time',y=['营养液PH'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
