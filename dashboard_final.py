@@ -362,12 +362,12 @@ def select_and_show_hetero_data():
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
     
-    combine_1d = heteros_daily[selection-1]
-    combine_1d['time'] = combine_1d.index
-    one_d = st.expander("1天平均值",expanded=True)
-    with one_d:
-        st.table(combine_1d)
-        show_everything(combine_1d,selection)
+    #combine_1d = heteros_daily[selection-1]
+    #combine_1d['time'] = combine_1d.index
+    #one_d = st.expander("1天平均值",expanded=True)
+    #with one_d:
+    #    st.table(combine_1d)
+    #    show_everything(combine_1d,selection)
     combine_3h = heteros_3H[selection-1]
     three_h = st.expander("3小时平均值",expanded=True)
     with three_h:
