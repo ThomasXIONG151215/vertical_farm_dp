@@ -62,6 +62,7 @@ _,main_col,_ = st.columns((1,2,1))
 times = combine_df['time']
 with main_col:
     st.title("生生不息数据平台")
+    stuff = """
     values = st.slider(
 '选择时间段',
     min_value=datetime(times[0].year,times[0].month,times[0].day), 
@@ -70,6 +71,8 @@ with main_col:
             datetime(times[200].year,times[100].month,times[100].day))
     ,#step=datetime(year=2023,month=1,day=1,hour=1,minute=1),
     format="MM/DD")
+    """
+    
 def enviro_module():
     st.markdown("## 种植进度")
     f21, f22 = st.columns(2)
@@ -244,7 +247,14 @@ width=1000,scrolling=True
 
 with st.sidebar:
   module = st.radio('工程模块',['生长条件','能源AI','设备全景'])
-
+  values = st.slider(
+'选择时间段',
+    min_value=datetime(times[0].year,times[0].month,times[0].day), 
+    max_value=datetime(times[-1].year,times[-1].month,times[-1].day), 
+    value=(datetime(times[30].year,times[30].month,times[30].day), 
+            datetime(times[200].year,times[100].month,times[100].day))
+    ,#step=datetime(year=2023,month=1,day=1,hour=1,minute=1),
+    format="MM/DD")
 if module == '生长条件':
   enviro_module()
 elif module == '能源AI':
