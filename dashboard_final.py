@@ -358,10 +358,11 @@ def select_and_show_hetero_data():
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
     heteros[selection].time = heteros[selection].index
     heteros[selection].time = pd.to_datetime(heteros[selection].time)
+    st.write(heteros[selection].keys())
     combine_3h = heteros[selection].resample('3H', on='time').mean()
-    three_h = st.expander("3小时平均值",expanded=True).table(combine_3h)
+    three_h = st.expander("3小时平均值",expanded=True)
     with three_h:
-        st.table(three_h)
+        st.table(combine_3h)
     combine_1d = heteros[selection].resample('1D', on='time').mean()
     one_d = st.expander("1天平均值",expanded=True)
     with one_d:
