@@ -351,7 +351,7 @@ def select_and_show_hetero_data():
     #heteros_light = [] #光期时
     for i in range(1,10):
         df = pd.read_csv('./hetero_data/hetero_'+str(i)+'.csv')
-        heteros.append(df[['plant ' + str(i),'plant ' + str(i) + ' diff','平均温度','平均湿度','1号CO2浓度','2号CO2浓度','1号蓝比','1号红比','1号绿比','1号PPFD','1号PAR']])
+        heteros.append(df[['plant ' + str(i),'plant ' + str(i) + ' diff','平均温度','平均湿度','1号室内CO2浓度','2号室内CO2浓度','营养液EC','营养液PH','营养液液温','1号蓝比','1号红比','1号绿比','1号PPFD','1号PAR','2号蓝比','2号红比','2号绿比','2号PPFD','2号PAR','3号蓝比','3号红比','3号绿比','3号PPFD','3号PAR']])
     #可以考虑表格展示每个dataframe在2号PAR这一列数值为零时的各参数的平均值
     #hetero_df = pd.DataFrame()
     selection = st.selectbox("选择模块", [i for i in range(1,10)])
