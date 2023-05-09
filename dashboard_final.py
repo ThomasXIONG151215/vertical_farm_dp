@@ -219,7 +219,9 @@ def enviro_module():
         pass
     st.dataframe(combine_df)
 
-from vertical_farm_dp.data_display import select_and_show_hetero_data
+#import sys 
+#sys.path.append('./')
+from data_display import select_and_show_hetero_data
 
 
 
