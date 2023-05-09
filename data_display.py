@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+
+@st.cache_data
 def show_everything(combine_df_s, mod_numero):
     try:
         del combine_df_s['Unnamed: 0']

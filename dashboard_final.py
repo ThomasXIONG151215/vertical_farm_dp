@@ -219,7 +219,7 @@ def enviro_module():
         pass
     st.dataframe(combine_df)
 
-from data_display import select_and_show_hetero_data
+from vertical_farm_dp.data_display import select_and_show_hetero_data
 
 
 
@@ -233,6 +233,10 @@ with st.sidebar:
             datetime(times[200].year,times[100].month,times[100].day))
     ,#step=datetime(year=2023,month=1,day=1,hour=1,minute=1),
     format="MM/DD")
+    
+  if st.buttong('Clear cache'):
+    st.cache_data.clear()
+
 if module == '环境参数':
     enviro_module()
 elif module == '异构数据':
