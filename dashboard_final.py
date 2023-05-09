@@ -12,6 +12,7 @@ st.set_page_config(
     layout="wide"
 )
 
+
 example_image1 = Image.open("./PlantImage/2023-04-14/7-15-57.jpg")
 #st.image(example_image1,caption="1号架子",use_column_width=True)
 example_image2 = Image.open("./PlantImage/2023-04-14/2-15-57.jpg")
@@ -90,8 +91,6 @@ def enviro_module():
     f22.metric(label = "相对湿度(%)",
                 value = str(round(combine_df['平均湿度'][-1],2)),
                 delta = str(round(combine_df['平均湿度'][-1]-combine_df['平均湿度'][-2],2)))
-    #sample_im_selection = st.selectbox('植物生长',options=['im1','im2','im3'])
-    #st.image(sample_ims[sample_im_selection],caption=sample_im_selection,use_column_width=True)
 
     st.markdown("## 环境控制")
     start_date = values[0]
@@ -384,8 +383,6 @@ def select_and_show_hetero_data():
     with three_h:
         st.table(combine_30m)
         show_everything(combine_30m,selection)
-    
-        
 
 def emist_ai():
     from sko.GA import GA
