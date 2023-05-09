@@ -236,7 +236,7 @@ with st.sidebar:
     ,#step=datetime(year=2023,month=1,day=1,hour=1,minute=1),
     format="MM/DD")
     
-  if st.buttong('Clear cache'):
+  if st.button('Clear cache'):
     st.cache_data.clear()
 
 if module == '环境参数':
