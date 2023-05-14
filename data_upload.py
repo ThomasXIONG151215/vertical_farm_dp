@@ -58,7 +58,7 @@ def data_pretreatment(df_number,df):
     grouper = df['time'].diff().gt(freq).cumsum()
     #grouped = [x for _,x in df.groupby(grouper)]
     for _,x in df.groupby(grouper):
-        x.to_csv('vertical_farm_dp/arranged_data'+str(df_number)+'/sub_df' + str(_) + '.csv')
+        x.to_csv('arranged_data'+str(df_number)+'/sub_df' + str(_) + '.csv')
 
 if __name__ == "__main__":
     while True:
@@ -98,12 +98,12 @@ if __name__ == "__main__":
         import os 
 
         dataframes4 = {}
-        csv_path = "vertical_farm_dp/arranged_data4"
+        csv_path = "arranged_data4"
         files = os.listdir(csv_path)
         num_files = len(files)
         print(num_files)
         for i in range(num_files):
-            dataframes4['df'+str(i)] = pd.read_csv("vertical_farm_dp/arranged_data4/sub_df"+str(i)+".csv")
+            dataframes4['df'+str(i)] = pd.read_csv("arranged_data4/sub_df"+str(i)+".csv")
 
         combine_df = pd.concat([dataframes4[key] for key in dataframes4.keys()],ignore_index=True)
 
@@ -124,8 +124,8 @@ if __name__ == "__main__":
             daily_condition = (daily_df['plant ' + str(i) + ' diff']>0)
             three_hour_condition = (three_hour_df['plant ' + str(i) + ' diff']>0)
             half_hour_condition = (half_hour_df['plant ' + str(i) + ' diff']>0)
-            daily_df[daily_condition].to_csv('vertical_farm_dp/hetero_data/daily_hetero_'+str(i)+'.csv')
-            three_hour_df[three_hour_condition].to_csv('vertical_farm_dp/hetero_data/3H_hetero_'+str(i)+'.csv')
-            half_hour_df[half_hour_condition].to_csv('vertical_farm_dp/hetero_data/30min_hetero_'+str(i)+'.csv')
+            daily_df[daily_condition].to_csv('hetero_data/daily_hetero_'+str(i)+'.csv')
+            three_hour_df[three_hour_condition].to_csv('hetero_data/3H_hetero_'+str(i)+'.csv')
+            half_hour_df[half_hour_condition].to_csv('hetero_data/30min_hetero_'+str(i)+'.csv')
 
         time.sleep(30*60)
