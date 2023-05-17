@@ -47,10 +47,11 @@ dark_period = [9,10,11,12,13,14,15]
 light_co2_consum = []
 dark_co2_consum = []
 
-combine_df = dataframes4['df10']
+#combine_df = dataframes4['df10']
 
-for i in range(10,num_files):
-    combine_df=pd.concat((combine_df,dataframes4['df'+str(i)]))
+#for i in range(10,num_files):
+#    combine_df=pd.concat((combine_df,dataframes4['df'+str(i)]))
+combine_df = pd.read_csv('arranged_data4/sub_df0.csv')
 
 combine_df['time'] = pd.to_datetime(combine_df['time'])
 combine_df = combine_df.set_index('time')

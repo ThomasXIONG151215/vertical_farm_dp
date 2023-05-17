@@ -74,7 +74,7 @@ if __name__ == "__main__":
         #plants = plants[:-1]
         re_arranged_plants = pd.DataFrame({})
         df_collection = []
-
+        
         for i in range(1,10):
             new_df = pd.DataFrame({})
             new = []
@@ -112,6 +112,8 @@ if __name__ == "__main__":
         for i in range(len(df_collection)):
             print(i)
             df_collection[i]['time'] = pd.to_datetime(df_collection[i]['time'])
+            #ValueError: Merge keys contain null values on left side
+            
             print(len(merged_df['time'])-merged_df['time'].count())
             print(len(merged_df['time'])-df_collection[i]['time'].count())
             merged_df = pd.merge_asof(merged_df,df_collection[i],on='time',direction='nearest')
