@@ -112,6 +112,8 @@ if __name__ == "__main__":
         for i in range(len(df_collection)):
             print(i)
             df_collection[i]['time'] = pd.to_datetime(df_collection[i]['time'])
+            print(len(merged_df['time'])-merged_df['time'].count())
+            print(len(merged_df['time'])-df_collection[i]['time'].count())
             merged_df = pd.merge_asof(merged_df,df_collection[i],on='time',direction='nearest')
         merged_df = merged_df.set_index('time')
         daily_df = merged_df.resample('1D').mean()#1天数据
