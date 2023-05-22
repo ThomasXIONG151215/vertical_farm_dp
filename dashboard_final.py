@@ -30,7 +30,7 @@ import os
 
 csv_path = "./arranged_data4"
 files = os.listdir(csv_path)
-num_files = len(files)
+num_files = len(files)-1
 dataframes4 = {}
 
 for i in range(10,num_files): #有效数据
