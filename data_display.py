@@ -5,11 +5,7 @@ import plotly.express as px
 
 @st.cache_data
 def show_everything(combine_df_s):
-    try:
-        del combine_df_s['Unnamed: 0']
-        del combine_df_s['Unnamed: 0.1']
-    except:
-        pass
+
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
         fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
@@ -188,6 +184,7 @@ def select_and_show_hetero_data():
         plants_day['No. '+str(i)+' area'] = new_df['plant '+str(i)]
     plants_day['time'] = new_df['time']
     plants_day = plants_day.set_index('time')
+
     import os 
     csv_path = "./arranged_data4"
     files = os.listdir(csv_path)
@@ -219,6 +216,8 @@ def select_and_show_hetero_data():
     day_means = pd.DataFrame(day_means).transpose()
     test_hetero = pd.concat((plants_day,day_means))
     test_hetero['date'] = pd.to_datetime(test_hetero.index)
+    
     test_hetero = test_hetero.sort_values(by='date',inplace=True)
+    st.write(test_hetero)
 
     show_everything(test_hetero)
