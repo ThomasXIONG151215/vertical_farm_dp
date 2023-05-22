@@ -12,7 +12,7 @@ def show_everything(combine_df_s):
         pass
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
-        fig = px.scatter(combine_df_s,x='time',y=['No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="植物表型像素",
@@ -22,7 +22,7 @@ def show_everything(combine_df_s):
                             ))
         st.plotly_chart(fig,use_container_width=True)
 
-        fig = px.scatter(combine_df_s,x='time',y=['平均温度'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['平均温度'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="温度",
@@ -32,7 +32,7 @@ def show_everything(combine_df_s):
                           ))
         st.plotly_chart(fig,use_container_width=True)
 
-        fig = px.scatter(combine_df_s,x='time',y=['1号室内CO2浓度','2号室内CO2浓度'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['1号室内CO2浓度','2号室内CO2浓度'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="CO2浓度",
@@ -44,7 +44,7 @@ def show_everything(combine_df_s):
 
         #st.line_chart(combine_df,x='顺序',y=['平均温度','1号室内温度','2号室内温度','户外温度'])
         st.markdown("""  ---  """)
-        fig = px.scatter(combine_df_s,x='time',y=['营养液EC'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['营养液EC'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="营养液EC",
@@ -54,7 +54,7 @@ def show_everything(combine_df_s):
                           ))
         st.plotly_chart(fig,use_container_width=True)
 
-        fig = px.scatter(combine_df_s,x='time',y=['1号蓝比','2号蓝比','3号蓝比','1号绿比','2号绿比','3号绿比','1号红比','2号红比','3号红比'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['1号蓝比','2号蓝比','3号蓝比','1号绿比','2号绿比','3号绿比','1号红比','2号红比','3号红比'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="光谱",
@@ -63,7 +63,7 @@ def show_everything(combine_df_s):
             family="Serif",size=15))
         st.plotly_chart(fig,use_container_width=True)
 
-        fig = px.scatter(combine_df_s,x='time',y=['1号色温','2号色温','3号色温'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['1号色温','2号色温','3号色温'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="色温",
@@ -73,7 +73,7 @@ def show_everything(combine_df_s):
         st.plotly_chart(fig,use_container_width=True)
         #st.area_chart(combine_df,x='顺序',y=['营养液EC'],height=300,use_container_width=True)
     with f2:
-        fig = px.scatter(combine_df_s.diff(1),x='time',y=['No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s.diff(1),x=combine_df_s.index,y=['No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="植物表型像素差分",
@@ -82,7 +82,7 @@ def show_everything(combine_df_s):
             family="Serif",size=15
                             ))
         st.plotly_chart(fig,use_container_width=True)
-        fig = px.scatter(combine_df_s,x='time',y=['平均湿度'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['平均湿度'],height=300,template='plotly_dark')
         fig.update_layout(title="湿度",
                           legend_title_text=None,
                           font=dict(
@@ -92,7 +92,7 @@ def show_everything(combine_df_s):
         fig.update_xaxes(title=None)
         st.plotly_chart(fig,use_container_width=True)
 
-        fig = px.scatter(combine_df_s,x='time',y=['营养液液温'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['营养液液温'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="营养液液温",
@@ -103,7 +103,7 @@ def show_everything(combine_df_s):
         st.plotly_chart(fig,use_container_width=True)
 
         st.markdown("""  ---  """)
-        fig = px.scatter(combine_df_s,x='time',y=['营养液PH'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['营养液PH'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="营养液PH",
@@ -113,7 +113,7 @@ def show_everything(combine_df_s):
                           ))
         st.plotly_chart(fig,use_container_width=True)
 
-        fig = px.scatter(combine_df_s,x='time',y=['1号PPFD','2号PPFD','3号PPFD'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['1号PPFD','2号PPFD','3号PPFD'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="PPFD",
@@ -122,7 +122,7 @@ def show_everything(combine_df_s):
             family="Serif",size=15))
         st.plotly_chart(fig,use_container_width=True)
 
-        fig = px.scatter(combine_df_s,x='time',y=['1号PAR','2号PAR','3号PAR'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['1号PAR','2号PAR','3号PAR'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="PAR",
@@ -219,6 +219,6 @@ def select_and_show_hetero_data():
     day_means = pd.DataFrame(day_means).transpose()
     test_hetero = pd.concat((plants_day,day_means))
     test_hetero['date'] = pd.to_datetime(test_hetero.index)
-    test_hetero.sort_values(by='date',inplace=True)
+    test_hetero = test_hetero.sort_values(by='date',inplace=True)
 
     show_everything(test_hetero)
