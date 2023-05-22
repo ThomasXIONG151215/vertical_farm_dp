@@ -217,7 +217,7 @@ def select_and_show_hetero_data():
     test_hetero = pd.concat((plants_day,day_means))
     test_hetero['date'] = pd.to_datetime(test_hetero.index)
     
-    test_hetero = test_hetero.sort_values(by='date',inplace=True)
+    test_hetero.sort_values(by='date',inplace=True)
     st.write(test_hetero)
 
     show_everything(test_hetero)
