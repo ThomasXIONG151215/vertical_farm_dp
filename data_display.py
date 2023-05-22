@@ -156,7 +156,7 @@ dark_time_ranges = generate_time_ranges(dark_start_time, dark_end_time, dark_fre
 #below i want a function that extract data starting from hetero, 
 # using st.select to enable selecting the dataframe to see and show chart
 def select_and_show_hetero_data():
-    plants = pd.read_csv("arranged_data4/Plant_data_halfhour.csv")
+    plants = pd.read_csv("./arranged_data4/Plant_data_halfhour.csv")
     whole_time=[pd.to_datetime(day+' '+hour) for day,hour in zip(plants['Date'],plants['Time'])]
     plants['time']=whole_time
     plants['pixel diff']=plants['Area per plant'].diff(1)
@@ -191,7 +191,7 @@ def select_and_show_hetero_data():
     import os 
     csv_path = "./arranged_data4"
     files = os.listdir(csv_path)
-    num_files = len(files)
+    num_files = len(files)-1
     dataframes4 = {}
 
     start = 44
