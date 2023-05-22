@@ -224,8 +224,6 @@ def enviro_module():
 #sys.path.append('./')
 from data_display import select_and_show_hetero_data
 
-
-
 with st.sidebar:
   module = st.radio('工程模块',['环境参数','异构数据'])
   values = st.slider(
