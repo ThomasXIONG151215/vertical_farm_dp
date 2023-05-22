@@ -66,6 +66,7 @@ if __name__ == "__main__":
         data_pretreatment(4,df)
 
         plants = pd.read_csv("G:\生生不息\实验数据\BaiduSyncdisk\Plant_data_halfhour.csv")
+        plants.to_csv('arranged_data4/Plant_data_halfhour.csv')
         whole_time=[pd.to_datetime(day+' '+hour) for day,hour in zip(plants['Date'],plants['Time'])]
         plants['time']=whole_time
         plants['pixel diff']=plants['Area per plant'].diff(1)
@@ -74,7 +75,7 @@ if __name__ == "__main__":
         #plants = plants[:-1]
         re_arranged_plants = pd.DataFrame({})
         df_collection = []
-        
+
         for i in range(1,10):
             new_df = pd.DataFrame({})
             new = []
