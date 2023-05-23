@@ -8,7 +8,7 @@ def show_everything(combine_df_s):
 
     f1,f2= st.columns((2,2),gap="medium")
     with f1:
-        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=['No. 0 area','No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="植物表型像素",
@@ -69,7 +69,22 @@ def show_everything(combine_df_s):
         st.plotly_chart(fig,use_container_width=True)
         #st.area_chart(combine_df,x='顺序',y=['营养液EC'],height=300,use_container_width=True)
     with f2:
-        fig = px.scatter(combine_df_s.diff(1),x=combine_df_s.index,y=['No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
+        lights_y_index = [1,2,3,4,5,7,8,9]
+        lights_y = []
+        for i in lights_y_index:
+            lights_y.append(str(i)+' W')
+            lights_y.append(str(i)+' R')
+            lights_y.append(str(i)+' B')
+        fig = px.scatter(combine_df_s.diff(1),x=combine_df_s.index,y=lights_y,height=300,template='plotly_dark')
+        fig.update_yaxes(title=None)
+        fig.update_xaxes(title=None)
+        fig.update_layout(title="光质设定",
+                            legend_title_text=None,
+                            font=dict(
+            family="Serif",size=15
+                            ))
+
+        fig = px.scatter(combine_df_s.diff(1),x=combine_df_s.index,y=['No. 0 area', 'No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="植物表型像素差分",
@@ -135,6 +150,46 @@ def generate_time_ranges(start_time, end_time, own_freq, other_freq):
         start_time += own_freq + other_freq
     return time_ranges
 
+import re
+
+def extract_number(data):
+    number_array = []
+    
+    for item in data:
+        numbers = re.findall(r'\d+', item)
+        number_array.append(int(numbers[0]) if len(numbers) > 0 else 0)
+        
+    return number_array
+
+def light_set_class(df):
+    detail_df = {}
+    
+    for key in df.keys():
+        key_str = str(key)
+        detail_df[key_str + ' W'] = []
+        detail_df[key_str + ' R'] = []
+        detail_df[key_str + ' B'] = []
+        
+        for item in df[key]:
+            numbers = extract_number([item])
+            
+            if len(numbers) > 0:
+                detail_df[key_str + ' W'].append(numbers[0])
+            else:
+                detail_df[key_str + ' W'].append(0)
+                
+            if len(numbers) > 1:
+                detail_df[key_str + ' R'].append(numbers[1])
+            else:
+                detail_df[key_str + ' R'].append(0)
+                
+            if len(numbers) > 2:
+                detail_df[key_str + ' B'].append(numbers[2])
+            else:
+                detail_df[key_str + ' B'].append(0)
+    
+    return pd.DataFrame(detail_df)
+
 # Define the start and end times and frequency for each period
 light_start_time = pd.Timestamp('2023-05-4 22:00:00')
 light_end_time = pd.Timestamp('2023-05-21 22:00:00')    
@@ -151,6 +206,16 @@ light_time_ranges = generate_time_ranges(light_start_time, light_end_time, light
 dark_time_ranges = generate_time_ranges(dark_start_time, dark_end_time, dark_frequency, light_frequency)
 #below i want a function that extract data starting from hetero, 
 # using st.select to enable selecting the dataframe to see and show chart
+
+def average_duplicate_rows(df):
+    # Group by index and calculate the average for each group
+    averaged_df = df.groupby(df.index).mean()
+    
+    # Reset the index to make it unique
+    averaged_df.reset_index(inplace=True)
+    
+    return averaged_df
+
 def select_and_show_hetero_data():
     plants = pd.read_csv("./arranged_data4/Plant_data_halfhour.csv")
     whole_time=[pd.to_datetime(day+' '+hour) for day,hour in zip(plants['Date'],plants['Time'])]
@@ -167,7 +232,7 @@ def select_and_show_hetero_data():
     plants_day = pd.DataFrame({})
     #plants_day['time'] = plants.index.unique()
     #plants_day = plants_day.set_index('time')
-    for i in range(1,10):
+    for i in range(10):
         new_df = pd.DataFrame({})
         new = []
         times =[]
@@ -185,6 +250,10 @@ def select_and_show_hetero_data():
     plants_day['time'] = new_df['time']
     plants_day = plants_day.set_index('time')
 
+    plants_day = average_duplicate_rows(plants_day)
+    plants_day['time'] = pd.to_datetime(plants_day['time'])
+    plants_day = plants_day.set_index('time')
+
     import os 
     csv_path = "./arranged_data4"
     files = os.listdir(csv_path)
@@ -198,6 +267,8 @@ def select_and_show_hetero_data():
     combine_df = dataframes4['df0']
     for i in range(start,num_files):
         combine_df=pd.concat((combine_df,dataframes4['df'+str(i)]))
+
+
     comb = combine_df
     enviros = comb
     comb['time'] = pd.to_datetime(comb['time'])
@@ -218,6 +289,16 @@ def select_and_show_hetero_data():
     test_hetero['date'] = pd.to_datetime(test_hetero.index)
     
     test_hetero.sort_values(by='date',inplace=True)
-    st.write(test_hetero)
 
-    show_everything(test_hetero)
+    lights_set_df = pd.read_excel('light_settings.xlsx')
+    lights_set_df = lights_set_df.set_index('No.')
+    lights_set_df = lights_set_df.transpose()
+    detail_light_sets = light_set_class(lights_set_df)
+    detail_light_sets['time'] = lights_set_df.index
+    detail_light_sets = detail_light_sets.set_index('time')
+
+    hetero = pd.concat((test_hetero,detail_light_sets),axis=1)
+
+    st.write(hetero)
+
+    show_everything(hetero)
