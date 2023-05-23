@@ -75,7 +75,7 @@ def show_everything(combine_df_s):
             lights_y.append(str(i)+' W')
             lights_y.append(str(i)+' R')
             lights_y.append(str(i)+' B')
-        fig = px.scatter(combine_df_s.diff(1),x=combine_df_s.index,y=lights_y,height=300,template='plotly_dark')
+        fig = px.scatter(combine_df_s,x=combine_df_s.index,y=lights_y, height=300, template='plotly_dark')
         fig.update_yaxes(title=None)
         fig.update_xaxes(title=None)
         fig.update_layout(title="光质设定",
