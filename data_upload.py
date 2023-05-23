@@ -67,6 +67,7 @@ if __name__ == "__main__":
 
         plants = pd.read_csv("G:\生生不息\实验数据\BaiduSyncdisk\Plant_data_halfhour.csv")
         plants.to_csv('arranged_data4/Plant_data_halfhour.csv')
+        '''
         whole_time=[pd.to_datetime(day+' '+hour) for day,hour in zip(plants['Date'],plants['Time'])]
         plants['time']=whole_time
         plants['pixel diff']=plants['Area per plant'].diff(1)
@@ -101,7 +102,7 @@ if __name__ == "__main__":
         dataframes4 = {}
         csv_path = "arranged_data4"
         files = os.listdir(csv_path)
-        num_files = len(files)
+        num_files = len(files)-1
         print(num_files)
         for i in range(num_files):
             dataframes4['df'+str(i)] = pd.read_csv("arranged_data4/sub_df"+str(i)+".csv")
@@ -132,5 +133,7 @@ if __name__ == "__main__":
             daily_df[daily_condition].to_csv('hetero_data/daily_hetero_'+str(i)+'.csv')
             three_hour_df[three_hour_condition].to_csv('hetero_data/3H_hetero_'+str(i)+'.csv')
             half_hour_df[half_hour_condition].to_csv('hetero_data/30min_hetero_'+str(i)+'.csv')
+        '''
+        
 
         time.sleep(30*60)
