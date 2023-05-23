@@ -298,7 +298,7 @@ def select_and_show_hetero_data():
     detail_light_sets = detail_light_sets.set_index('time')
 
     hetero = pd.concat((detail_light_sets,test_hetero),axis=1)
-    hetero = hetero.fillna(0)
-    st.write(hetero)
+    #hetero = hetero.fillna(0)
+    #st.write(hetero)
 
     show_everything(hetero)
