@@ -83,6 +83,7 @@ def show_everything(combine_df_s):
                             font=dict(
             family="Serif",size=15
                             ))
+        st.plotly_chart(fig,use_container_width=True)
 
         fig = px.scatter(combine_df_s.diff(1),x=combine_df_s.index,y=['No. 0 area', 'No. 1 area','No. 2 area','No. 3 area','No. 4 area','No. 5 area','No. 6 area','No. 7 area','No. 8 area','No. 9 area'],height=300,template='plotly_dark')
         fig.update_yaxes(title=None)
