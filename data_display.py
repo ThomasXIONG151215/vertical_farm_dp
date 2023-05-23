@@ -297,7 +297,7 @@ def select_and_show_hetero_data():
     detail_light_sets['time'] = lights_set_df.index
     detail_light_sets = detail_light_sets.set_index('time')
 
-    hetero = pd.concat((test_hetero,detail_light_sets),axis=1)
+    hetero = pd.concat((detail_light_sets,test_hetero),axis=1)
 
     st.write(hetero)
 
