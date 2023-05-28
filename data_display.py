@@ -193,7 +193,7 @@ def light_set_class(df):
 
 # Define the start and end times and frequency for each period
 light_start_time = pd.Timestamp('2023-05-4 22:00:00')
-light_end_time = pd.Timestamp('2023-05-21 22:00:00')    
+light_end_time = pd.Timestamp('2023-06-06 22:00:00')    
 light_frequency = pd.Timedelta(hours=24)
 bug_freq = pd.Timedelta(hours=0)
 dark_start_time = pd.Timestamp('2023-05-4 11:00:00')
