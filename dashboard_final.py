@@ -7,24 +7,10 @@ import streamlit.components.v1 as components
 from PIL import Image 
 
 st.set_page_config(
-    page_title="LaLL App",
+    page_title="SSBX",
     page_icon="🌱",
     layout="wide"
 )
-
-
-example_image1 = Image.open("./PlantImage/2023-04-14/7-15-57.jpg")
-#st.image(example_image1,caption="1号架子",use_column_width=True)
-example_image2 = Image.open("./PlantImage/2023-04-14/2-15-57.jpg")
-#st.image(example_image2,caption="2号架子",use_column_width=True)
-example_image3 = Image.open("./PlantImage/2023-04-14/4-15-57.jpg")
-#st.image(example_image3,caption="3号架子",use_column_width=True)
-
-sample_ims = {
-    'im1':example_image1,
-    'im2':example_image2,
-    'im3':example_image3
-}
 
 import os 
 
@@ -60,21 +46,92 @@ combine_df['顺序'] = [i for i in range(1,len(combine_df)+1)]
 
 from datetime import datetime,time
 
-_,main_col,_ = st.columns((1,2,1))
+_,main_col,_ = st.columns((1,0.5,1))
 times = combine_df['time']
 with main_col:
-    st.title("生生不息数据平台")
-    stuff = """
-    values = st.slider(
-'选择时间段',
-    min_value=datetime(times[0].year,times[0].month,times[0].day), 
-    max_value=datetime(times[-1].year,times[-1].month,times[-1].day), 
-    value=(datetime(times[30].year,times[30].month,times[30].day), 
-            datetime(times[200].year,times[100].month,times[100].day))
-    ,#step=datetime(year=2023,month=1,day=1,hour=1,minute=1),
-    format="MM/DD")
-    """
-    
+    st.title("生生不息平台",anchor="center")
+
+def control_pannel():
+    st.markdown("## 控制面板")
+
+    st.markdown("### 灯光控制")
+    l1, l2 = st.columns(2)
+    with l1:
+        light_start = st.slider("开启时间",min_value=0,max_value=24,value=18)
+        #blue = st.number_input("蓝光",min_value=0,max_value=100,value=20)
+        #red = st.number_input("红光",min_value=0,max_value=100,value=40)
+        #green = st.number_input("绿光",min_value=0,max_value=100,value=10)
+        #large_red = st.number_input("远红光",min_value=0,max_value=100,value=10)
+    with l2:
+        #st.metric(label = "光照强度",value=str(round((blue+red+green+large_red)/4,1))+" %")
+        light_end = st.slider("关闭时间",min_value=0,max_value=24,value=10)
+    exec_light = st.button("灯光执行")
+    if exec_light:
+        light_lenght = 24 - light_start + light_end
+        dark_lenght = 24 - light_lenght
+        st.session_state.light = st.warning("执行成功，从现在起光期时长为"+str(light_lenght)+"小时, 暗期时长为"+str(dark_lenght)+"小时")
+
+    st.markdown("### 温度控制")
+    a1, a2 = st.columns(2)
+    with a1:
+        ac_onoff = st.checkbox("空调开关")
+        T_set = st.number_input("设定温度",min_value=18,max_value=30,value=24)
+        #fresh_air_onoff = st.checkbox("新风开关")
+        mode = st.selectbox("模式",["制冷","制热","送风","除湿"])
+        mode_effect = {
+            "制冷": -1,
+            "制热": 1,
+            "送风": -0.1,
+            "除湿": -0.5
+        }[mode]
+        intensity = st.number_input("风速档位",min_value=0,max_value=7,value=4)
+        duration = st.number_input("持续时间(min)",min_value=0,max_value=60,value=2)
+        #fresh_air_rate = st.number_input("新风开度",min_value=0,max_value=100,value=20)        
+        T_now = 24.7
+        T_predict = T_now + ac_onoff*mode_effect*intensity*duration/60
+        
+        RH_now = 67
+        RH_predict = RH_now + ac_onoff*mode_effect*intensity*duration/60 * 3.2
+
+    with a2:
+        d1, d2 = st.columns(2)
+        
+        with d1:
+            st.metric(label = "当前温度",value=str(round(T_now,1))+" ℃")
+            st.metric(label = "预测温度",value=str(round(T_predict,1))+" ℃",delta=str(round(T_predict-T_now,1))+" ℃")
+        
+        with d2:
+            st.metric(label = "当前湿度",value=str(round(RH_now,1))+" %")
+            st.metric(label = "预测湿度",value=str(round(RH_predict,1))+" %",delta=str(round(RH_predict-RH_now,1))+" %")
+        T_set_light = st.slider("光期设定温度",min_value=18,max_value=26,value=T_set)
+        T_set_night = st.slider("暗期设定温度",min_value=17,max_value=26,value=22)
+
+        ac_exec = st.button("空调执行")
+    if ac_exec:
+        st.success("执行成功，预计"+str(duration)+"分钟后温度达到"+str(T_predict)+"度与目标值"+str(T_set)+"度相差"+"%s ℃" % round(abs(T_predict-T_set),1)+"同时相对湿度温度维持在60-90%区间")
+
+    st.markdown("### CO2控制")
+
+    c1, c2 = st.columns(2)
+    with c1:
+        co2_set = st.number_input("CO2设定",min_value=0,max_value=1000,value=900)
+        co2_duration = st.number_input("阀门开启时间(s)",min_value=0,max_value=120,value=30)
+        step = st.number_input("规划次数",min_value=0,max_value=60,value=10)
+        ppm_now = 700
+        ppm_predict = ppm_now + step*co2_duration/60*32.4
+    with c2:
+        st.metric(label = "当前CO2浓度",value=str(ppm_now)+" ppm")
+        st.metric(label = "预测CO2浓度",value=str(round(ppm_predict,1))+" ppm",delta=str(round(ppm_predict-ppm_now,1))+" ppm")
+        co2_exec = st.button("CO2执行")
+    if co2_exec:
+        st.info("执行成功，预计二氧化碳浓度调节准确率将达"+"%s %%" % round(100-abs(ppm_predict-co2_set)/co2_set*100,1))
+
+    #change_backend = st.checkbox("修改后台算法")    
+    #if change_backend:
+
+             
+
+
 def enviro_module():
     to_fix = """
     st.markdown("## 种植进度")
@@ -220,12 +277,10 @@ def enviro_module():
         pass
     st.dataframe(combine_df)
 
-#import sys 
-#sys.path.append('./')
-from data_display import select_and_show_hetero_data
+from data_display import select_and_show_hetero_data,clean_display
 
 with st.sidebar:
-  module = st.radio('工程模块',['环境参数','异构数据'])
+  module = st.radio('工程模块',['调控面板','环境参数','异构数据'])
   values = st.slider(
 '选择时间段',
     min_value=datetime(times[0].year,times[0].month,times[0].day), 
@@ -241,6 +296,8 @@ with st.sidebar:
 if module == '环境参数':
     enviro_module()
 elif module == '异构数据':
-    select_and_show_hetero_data()
+    clean_display()
+elif module == '调控面板':
+    control_pannel()
 
   

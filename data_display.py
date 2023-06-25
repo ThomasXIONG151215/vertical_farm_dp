@@ -306,3 +306,18 @@ def select_and_show_hetero_data():
     #st.write(hetero)
 
     show_everything(hetero)
+from PIL import Image 
+def clean_display():
+    plants = pd.read_csv("./Plant_data_22.csv")
+    plant_dfs = {}
+    plant_imgs = {}
+    for i in [0,1,2,3,4,5,7,8,9]:
+        plant_dfs['单元'+str(i)] = plants[plants['No.']==i]
+        plant_imgs['单元'+str(i)] = Image.open('./selected photos/boundary/'+str(i)+'.jpg')
+    choice = st.selectbox('选择单元',list(plant_dfs.keys()))
+    c1, c2 = st.columns(2)
+    with c1:
+        st.image(plant_imgs[choice],use_column_width=True)
+    with c2:
+        fig = px.line(plant_dfs[choice],x='Date',y='Area per plant')
+        st.plotly_chart(fig)
